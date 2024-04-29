@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Data.Map;
 using SalesWebMvc.Models;
 
 namespace SalesWebMvc.Data
@@ -14,6 +15,12 @@ namespace SalesWebMvc.Data
         {
         }
 
-        public DbSet<SalesWebMvc.Models.Department> Department { get; set; } = default!;
+        public DbSet<SalesWebMvc.Models.Department> Department { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new DepartmentMap());
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
