@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
+using SalesWebMvc.Services;
 using System.Security.Cryptography.X509Certificates;
 namespace SalesWebMvc
 {
@@ -16,8 +17,9 @@ namespace SalesWebMvc
             // Add services to the container.
             builder.Services.AddControllersWithViews();
            
-            //Declarando para usar injeção de dependencia
+            //Declarando meus serviços para usar injeção de dependencia
             builder.Services.AddScoped<SeedingService>();
+            builder.Services.AddScoped<SellerService>();
             
             var app = builder.Build();
 
