@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Data;
 using SalesWebMvc.Services;
-using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
 namespace SalesWebMvc
 {
     public class Program
@@ -33,6 +33,8 @@ namespace SalesWebMvc
                 var seedingService = services.GetRequiredService<SeedingService>();
                 seedingService.Seed();//Chamando o método para popular a tabela
             }
+
+            
                 
             if (!app.Environment.IsDevelopment())
                 {
@@ -48,6 +50,17 @@ namespace SalesWebMvc
             app.UseRouting();
 
             app.UseAuthorization();
+
+            var supportedCultures = new[] { new CultureInfo("en-US") };
+
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.MapControllerRoute(
                 name: "default",
