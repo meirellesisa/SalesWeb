@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
 using SalesWebMvc.Services.Exceptions;
@@ -38,9 +39,16 @@ namespace SalesWebMvc.Services
 
         public async Task RemoveAsync(int id)
         {
-            var seller = await FindByIdAsync(id);
-            _context.Seller.Remove(seller);
-            _context.SaveChangesAsync();
+            try
+            {
+              var seller = await FindByIdAsync(id);
+              _context.Seller.Remove(seller);
+              _context.SaveChangesAsync();
+            }catch(DbUpdateException ex)
+            {
+                throw new IntegriyException(ex.Message);
+            }
+            
         }
 
         public async Task UpdateAsync(Seller seller)

@@ -23,6 +23,7 @@ namespace SalesWebMvc.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new DepartmentMap());
+            modelBuilder.ApplyConfiguration(new SellerMap());
             base.OnModelCreating(modelBuilder);
         }
     }
