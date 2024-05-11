@@ -1,5 +1,85 @@
-﻿@{
-    ViewData["Title"] = "Grouping Search";
+﻿@model IEnumerable<SalesWebMvc.Models.SalesRecord>
+
+@{
+    ViewData["Title"] = "Simple Search";
 }
 
-<h2>@ViewData["Title"]</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SalesWebMvc</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SalesWebMvc.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+   
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <h2>@ViewData["Title"]</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form>
+                    <div class="form-row" role="search">
+                        <div class="form-group col-md-3">
+                            <label for="minDate">Min Date</label>
+                            <input type="date" class="form-control" id="initial" name="initial" value="@ViewData["minDate"]" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="maxDate">Max Date</label>
+                            <input type="date" class="form-control" id="final" name="final" value="@ViewData["maxDate"]" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary size">Filter</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card form-control-color bg-primary p-2 ">
+                       <h3> Total sales = @Model.Sum(obj => obj.Amount).ToString("F2")</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Seller</th>
+                                    <th>Department</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Date</td>
+                                        <td>@item.Seller.Name</td>
+                                        <td>@item.Seller.Departments.Name</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCvGFnCpf8d+UOYT7GCybvVXl5+38hKQz5rN" crossorigin="anonymous"></script>
+</body>
+</html>
